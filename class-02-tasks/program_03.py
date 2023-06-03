@@ -1,4 +1,4 @@
-# Show message to the screen for getting two input numbers.
+# Show message to the screen for getting centigrade temperature.
 centigrade = int(input('The temperature in centigrade: '))
 
 # Calculate Centigrade to Fahrenheit and assign variable.
