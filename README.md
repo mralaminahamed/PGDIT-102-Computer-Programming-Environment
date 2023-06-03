@@ -26,4 +26,4 @@ Contributions to the Python Class Tasks are welcome. If you encounter any issues
 The Python Class Task is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html) License.
 
 ## Credits
-The Python Class Task is developed and maintained by [Al Amin Ahamed](https://github.com/mralamainahamed)(Al Amin Ahamed).
+The Python Class Task is developed and maintained by [Al Amin Ahamed](https://github.com/mralamainahamed).
