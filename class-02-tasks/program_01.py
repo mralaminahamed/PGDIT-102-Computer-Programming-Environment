@@ -1,6 +1,6 @@
 # Show message to the screen for getting two input numbers.
-number1 = int(input('Enter your first number: '))
-number2 = int(input('Enter your second number: '))
+number1 = int(input('Enter first number: '))
+number2 = int(input('Enter second number: '))
 
 # Calculate this two number into addition, subtraction, multiplication and division,
 # and assign separate variables.
