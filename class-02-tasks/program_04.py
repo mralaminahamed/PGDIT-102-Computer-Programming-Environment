@@ -1,6 +1,6 @@
 # Show message to the screen for getting a rectangle's height and width.
-height = int(input('The height of rectangle: '))
-width = int(input('The width of rectangle: '))
+height = int(input('Enter the height of the rectangle: '))
+width = int(input('Enter the width of the rectangle: '))
 
 # Calculate the perimeter of a rectangle and assign variable.
 # formula: P = 2(a + b)

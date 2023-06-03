@@ -1,5 +1,5 @@
 # Show message to the screen for getting radius of a circle.
-radius = int(input('The radius of circle: '))
+radius = int(input('Enter the radius of the circle: '))
 
 # Set the default value for pi
 pi = 3.1416

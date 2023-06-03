@@ -1,5 +1,5 @@
 # Show message to the screen for getting centigrade temperature.
-centigrade = int(input('The temperature in centigrade: '))
+centigrade = int(input('Enter the temperature in centigrade: '))
 
 # Calculate Centigrade to Fahrenheit and assign variable.
 # formula: (0°C × 9/5) + 32 = 32°F
