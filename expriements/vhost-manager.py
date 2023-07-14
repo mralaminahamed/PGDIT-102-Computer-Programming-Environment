@@ -16,6 +16,12 @@ def create_directory(domain):
         # Create the domain directory
         os.makedirs(domain_dir)
         print(f"The directory for domain '{domain}' has been created.")
+
+        # To ensure that the correct ownership and permissions of root directories:
+        subprocess.run(f"sudo chown -R www-data:www-data /var/www/{domain}", shell=True)
+        subprocess.run(f"sudo chmod -R 755 /var/www/{domain}", shell=True)
+        print(f"The correct ownership and permissions of the directory for domain '{domain}' has been updated.")
+
     else:
         print(f"The directory for domain '{domain}' already exists.")
 
@@ -25,8 +31,17 @@ def create_directory(domain):
         index_file.write('<html><body><h1>Welcome to ' + domain + '</h1></body></html>')
     print(f"The default index file has been added to the domain directory.")
 
+    # Add a php info file to the domain directory
+    index_file_path = os.path.join(domain_dir, 'info.php')
+    with open(index_file_path, 'w') as index_file:
+        index_file.write('<?php phpinfo(); ?>')
+    print(f"The php info file has been added to the domain directory.")
+
 
 def create_vhost(domain, admin_email, php_version):
+    # Create an alias for proxy_fcgi.
+    subprocess.run("sudo a2enmod actions fcgid alias proxy_fcgi", shell=True)
+
     # Add the ".local" suffix to the domain name if not already present
     domain_with_suffix = domain + ".local" if not domain.endswith(".local") else domain
 
@@ -51,10 +66,18 @@ def create_vhost(domain, admin_email, php_version):
         <IfModule mod_deflate.c>
             AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
         </IfModule>
-
+        
+        <IfModule sapi_apache2.c>
+            php_admin_flag engine on
+        </IfModule>
         <IfModule mod_php{php_version}.c>
             php_admin_flag engine on
         </IfModule>
+
+        <FilesMatch \.php$> 
+          # For Apache version 2.4.10 and above, use SetHandler to run PHP as a fastCGI process server
+          SetHandler "proxy:unix:/run/php/php{php_version}-fpm.sock|fcgi://localhost"
+        </FilesMatch>
     </VirtualHost>
     """
 
@@ -63,14 +86,32 @@ def create_vhost(domain, admin_email, php_version):
     with open(vhost_filename, 'w') as vhost_file:
         vhost_file.write(vhost_template)
 
+    # Test the virtual host configuration file.
+    subprocess.run("sudo apachectl configtest", shell=True)
+
     # Enable the virtual host
-    subprocess.run(['a2ensite', domain_with_suffix])
+    subprocess.run(f"sudo a2ensite {domain_with_suffix}", shell=True)
 
     # Enable mod_deflate (gzip) module
-    subprocess.run(['a2enmod', 'deflate'])
+    enable_mod_deflate()
 
-    # Reload Apache to apply the changes
-    subprocess.run(['systemctl', 'reload', 'apache2'])
+    # Start the PHP Fast-CGI server
+    subprocess.run(f"sudo systemctl restart php{php_version}-fpm", shell=True)
+
+    # Restart the Apache server for the changes to take effect
+    subprocess.run("sudo systemctl restart apache2", shell=True)
+
+
+def enable_mod_deflate():
+    # Check if mod_deflate is already enabled
+    result = subprocess.run("sudo apache2ctl -M", shell=True, capture_output=True, text=True)
+
+    if "deflate_module" not in result.stdout:
+        # mod_deflate is not enabled, enable it
+        subprocess.run("sudo a2enmod deflate", shell=True)
+
+        # Restart the Apache server for the changes to take effect
+        subprocess.run("sudo systemctl restart apache2", shell=True)
 
 
 def update_hosts_file(domain, new_domain=None):
@@ -136,7 +177,7 @@ def update_domain(domain):
                 vhost_content = re.sub(r'ServerAdmin\s+(.+)', f'ServerAdmin {new_admin_email}', vhost_content)
 
             if update_php_version:
-                vhost_content = re.sub(r'mod_php([0-9.]+)\.c', f'mod_php{new_php_version}.c', vhost_content)
+                vhost_content = re.sub(r'php([0-9.]+)\.c', f'php{new_php_version}.c', vhost_content)
 
             with open(vhost_filename, 'w') as vhost_file:
                 vhost_file.write(vhost_content)
@@ -157,27 +198,28 @@ def delete_domain(domain):
     vhost_filename = f"/etc/apache2/sites-available/{domain_with_suffix}.conf"
     if os.path.exists(vhost_filename):
         os.remove(vhost_filename)
-        print(f"The virtual host configuration file for domain '{domain_with_suffix}' has been deleted.")
+        print(f"[DELETED] The virtual host configuration file for domain '{domain_with_suffix}'.")
 
     # Check if the domain vhost file is added with the suffix
     vhost_filename_without_suffix = f"/etc/apache2/sites-available/{domain}.conf"
     if os.path.exists(vhost_filename_without_suffix):
         os.remove(vhost_filename_without_suffix)
-        print(f"The virtual host configuration file for domain '{domain}' has been deleted.")
+        print(f"[DELETED] The virtual host configuration file for domain '{domain}'.")
 
     # Disable the virtual host
-    subprocess.run(['a2dissite', domain_with_suffix])
+    result = subprocess.run(f"sudo a2dissite {domain_with_suffix}", shell=True, capture_output=True, text=True)
+    print(f"[DELETED] {result.stdout}.")
 
     # Remove the domain directory if it exists
     domain_dir = os.path.join('/var/www', domain_with_suffix)
     if os.path.exists(domain_dir):
         shutil.rmtree(domain_dir)
-        print(f"The directory for domain '{domain_with_suffix}' has been deleted.")
+        print(f"[DELETED] The directory for domain '{domain_with_suffix}'.")
     elif os.path.exists(os.path.join('/var/www', domain)):
         shutil.rmtree(os.path.join('/var/www', domain))
-        print(f"The directory for domain '{domain}' has been deleted.")
+        print(f"[DELETED] The directory for domain '{domain}'.")
     else:
-        print(f"The directory for domain '{domain_with_suffix}' doesn't exist. Skipping deletion.")
+        print(f"[SKIPPED] The directory for domain '{domain_with_suffix}' doesn't exist. Skipping deletion.")
 
     # Update the hosts file
     hosts_file = '/etc/hosts'
@@ -186,10 +228,10 @@ def delete_domain(domain):
     hosts_content = re.sub(rf"(127\.0\.0\.1\s+){domain_with_suffix}", '', hosts_content)
     with open(hosts_file, 'w') as hosts:
         hosts.write(hosts_content)
-    print(f"The domain '{domain_with_suffix}' has been removed from the hosts file.")
+    print(f"[DELETED] The domain '{domain_with_suffix}' has been removed from the hosts file.")
 
-    # Reload Apache to apply the changes
-    subprocess.run(['systemctl', 'reload', 'apache2'])
+    # Restart the Apache server for the changes to take effect
+    subprocess.run("sudo systemctl restart apache2", shell=True)
 
 
 def get_installed_date(domain):
@@ -238,7 +280,7 @@ def show_installed_domains():
                 admin_email_match = re.search(r'ServerAdmin\s+(.+)', vhost_content)
                 admin_email = admin_email_match.group(1) if admin_email_match else ""
 
-                php_version_match = re.search(r'mod_php([0-9.]+)\.c', vhost_content)
+                php_version_match = re.search(r'php([0-9.]+)\.c', vhost_content)
                 php_version = php_version_match.group(1) if php_version_match else "system"
 
             domain_dir_with_suffix = os.path.join('/var/www', domain + ".local")
