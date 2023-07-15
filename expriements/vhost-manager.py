@@ -86,9 +86,6 @@ def create_vhost(domain, admin_email, php_version):
     with open(vhost_filename, 'w') as vhost_file:
         vhost_file.write(vhost_template)
 
-    # Test the virtual host configuration file.
-    subprocess.run("sudo apachectl configtest", shell=True)
-
     # Enable the virtual host
     subprocess.run(f"sudo a2ensite {domain_with_suffix}", shell=True)
 
@@ -177,10 +174,18 @@ def update_domain(domain):
                 vhost_content = re.sub(r'ServerAdmin\s+(.+)', f'ServerAdmin {new_admin_email}', vhost_content)
 
             if update_php_version:
-                vhost_content = re.sub(r'php([0-9.]+)\.c', f'php{new_php_version}.c', vhost_content)
+                vhost_content = re.sub(r'mod_php([0-9.]+)\.c', f'mod_php{new_php_version}.c', vhost_content)
+                vhost_content = re.sub(r'php([0-9.]+)-fpm', f'php{new_php_version}-fpm', vhost_content)
+
+                # set php versio when php version inherit from system.
+                vhost_content = re.sub(r'mod_php\.c', f'mod_php{new_php_version}.c', vhost_content)
+                vhost_content = re.sub(r'php-fpm', f'php{new_php_version}-fpm', vhost_content)
 
             with open(vhost_filename, 'w') as vhost_file:
                 vhost_file.write(vhost_content)
+
+            # Start the PHP Fast-CGI server
+            subprocess.run(f"sudo systemctl restart php{new_php_version}-fpm", shell=True)
             print(f"The virtual host configuration file has been updated for domain '{domain}'.")
         else:
             print(f"Virtual host configuration file not found for domain '{domain}'. Skipping update.")
@@ -280,7 +285,7 @@ def show_installed_domains():
                 admin_email_match = re.search(r'ServerAdmin\s+(.+)', vhost_content)
                 admin_email = admin_email_match.group(1) if admin_email_match else ""
 
-                php_version_match = re.search(r'php([0-9.]+)\.c', vhost_content)
+                php_version_match = re.search(r'mod_php([0-9.]+)\.c', vhost_content)
                 php_version = php_version_match.group(1) if php_version_match else "system"
 
             domain_dir_with_suffix = os.path.join('/var/www', domain + ".local")
