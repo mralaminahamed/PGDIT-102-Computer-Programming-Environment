@@ -309,7 +309,7 @@ def install_wordpress(domain):
     os.chdir(f"/var/www/{domain}")
 
     # Run the WP-CLI command to download and install WordPress
-    subprocess.run(['wp', 'core', 'download', '--allow-root'])
+    subprocess.run("wp core download --allow-root", shell=True)
 
     # Delete the index.html file
     index_file = os.path.join('/var/www', domain, 'index.html')
@@ -317,6 +317,8 @@ def install_wordpress(domain):
         os.remove(index_file)
         print("The default index.html file has been deleted.")
 
+    subprocess.run(f"sudo chown -R www-data:www-data /var/www/{domain}", shell=True)
+    subprocess.run(f"sudo chmod -R 755 /var/www/{domain}", shell=True)
     print(f"WordPress has been installed for domain '{domain}'.")
 
 
