@@ -1,19 +1,17 @@
 def calculate_result(attendance_marks, q1_marks, q2_marks, q3_marks, lab_marks, final):
     in_course_mark = in_course_calculate(attendance_marks, q1_marks, q2_marks, q3_marks, lab_marks)
     final_marks = final_calculate(in_course_mark, final)
-    gpa = gpa_calculate(final_marks)
-    return gpa
+    return gpa_calculate(final_marks)
 
 
 def in_course_calculate(attendance_marks, q1_marks, q2_marks, q3_marks, lab_marks):
+    # Average of quiz marks (sum of quiz marks * 2) multiplied by 3
     total_quiz_marks = ((q1_marks + q2_marks + q3_marks) * 2) / 3
-    in_course_total = attendance_marks + total_quiz_marks + lab_marks
-    return in_course_total
+    return attendance_marks + total_quiz_marks + lab_marks
 
 
 def final_calculate(in_course_mark, final):
-    final_marks = in_course_mark + final
-    return final_marks
+    return in_course_mark + final
 
 
 def gpa_calculate(final_marks):
@@ -37,13 +35,19 @@ def gpa_calculate(final_marks):
 
 if __name__ == '__main__':
     # Collect input from the professor
-    attendance_mark = 10
-    quiz_marks = [15, 20, 25]  # Average of quiz marks (sum of quiz marks * 2) multiplied by 3
-    lab_mark = 10
-    final_mark = 50
+    attendance_mark = int(input("Enter the attendance mark (out of 10): "))
+    quiz_marks = input("Enter the quiz mark (out of 15) with comma: ")
+    lab_mark = int(input("Enter the lab mark (out of 10): "))
+    final_mark = int(input("Enter the final mark (out of 50): "))
+
+    # Split the quiz mark using the comma separator
+    values_list = quiz_marks.split(',')
+
+    # Convert elements to integers using list comprehension
+    int_values_list = [int(value) for value in values_list]
 
     # Calculate GPA
-    gpa_result = calculate_result(attendance_mark, *quiz_marks, lab_mark, final_mark)
+    gpa_result = calculate_result(attendance_mark, *int_values_list, lab_mark, final_mark)
 
     # Show result
     print(f"GPA for this student is {gpa_result:.2f}")
