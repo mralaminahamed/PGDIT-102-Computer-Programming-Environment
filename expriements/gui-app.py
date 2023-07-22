@@ -1,289 +1,176 @@
-import gi
-
-gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, Gio
-
-
-class MainWindow(Gtk.ApplicationWindow):
-    def __init__(self, app):
-        Gtk.ApplicationWindow.__init__(self, title="Domain Management", application=app)
-
-        # Create the main grid layout
-        self.grid = Gtk.Grid(column_homogeneous=True, row_homogeneous=True, column_spacing=10, row_spacing=10)
-        self.set_child(self.grid)
-
-        # Create the action buttons
-        self.create_button = Gtk.Button(label="Create Domain")
-        self.create_button.connect("clicked", self.on_create_button_clicked)
-        self.grid.attach(self.create_button, 0, 0, 1, 1)
-
-        self.update_button = Gtk.Button(label="Update Domain")
-        self.update_button.connect("clicked", self.on_update_button_clicked)
-        self.grid.attach(self.update_button, 1, 0, 1, 1)
-
-        self.delete_button = Gtk.Button(label="Delete Domain")
-        self.delete_button.connect("clicked", self.on_delete_button_clicked)
-        self.grid.attach(self.delete_button, 2, 0, 1, 1)
-
-        self.show_installed_button = Gtk.Button(label="Show Installed Domains")
-        self.show_installed_button.connect("clicked", self.on_show_installed_button_clicked)
-        self.grid.attach(self.show_installed_button, 3, 0, 1, 1)
-
-    def on_create_button_clicked(self, button):
-        # Handle the create button click event
-        dialog = CreateDomainDialog(self)
-        response = dialog.run()
-
-        if response == Gtk.ResponseType.OK:
-            domain = dialog.get_domain()
-            admin_email = dialog.get_admin_email()
-            php_version = dialog.get_php_version()
-
-            # Add your code for creating a domain here
-            create_domain(domain, admin_email, php_version)
-
-        dialog.destroy()
-
-    def on_update_button_clicked(self, button):
-        # Handle the update button click event
-        dialog = UpdateDomainDialog(self)
-        response = dialog.run()
-
-        if response == Gtk.ResponseType.OK:
-            domain = dialog.get_domain()
-            new_domain = dialog.get_new_domain()
-            new_root_path = dialog.get_new_root_path()
-            new_admin_email = dialog.get_new_admin_email()
-            new_php_version = dialog.get_new_php_version()
-
-            # Add your code for updating a domain here
-            update_domain(domain, new_domain, new_root_path, new_admin_email, new_php_version)
-
-        dialog.destroy()
-
-    def on_delete_button_clicked(self, button):
-        # Handle the delete button click event
-        dialog = DeleteDomainDialog(self)
-        response = dialog.run()
-
-        if response == Gtk.ResponseType.OK:
-            domain = dialog.get_domain()
-
-            # Add your code for deleting a domain here
-            delete_domain(domain)
-
-        dialog.destroy()
-
-    def on_show_installed_button_clicked(self, button):
-        # Handle the show installed domains button click event
-        dialog = ShowInstalledDomainsDialog(self)
-        response = dialog.run()
-
-        if response == Gtk.ResponseType.OK:
-            # Add your code for showing installed domains here
-            show_installed_domains()
-
-        dialog.destroy()
-
-
-class CreateDomainDialog(Gtk.Dialog):
-    def __init__(self, parent):
-        Gtk.Dialog.__init__(self, "Create Domain", parent, 0,
-                            buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-
-        self.set_default_size(300, 200)
-        self.set_modal(True)
-
-        self.domain_entry = Gtk.Entry()
-        self.admin_email_entry = Gtk.Entry()
-        self.php_version_entry = Gtk.Entry()
-
-        self.domain_entry.set_placeholder_text("Domain Name")
-        self.admin_email_entry.set_placeholder_text("Admin Email")
-        self.php_version_entry.set_placeholder_text("PHP Version")
-
-        self.domain_entry.set_hexpand(True)
-        self.admin_email_entry.set_hexpand(True)
-        self.php_version_entry.set_hexpand(True)
-
-        self.grid = Gtk.Grid(column_homogeneous=True, row_homogeneous=True, column_spacing=10, row_spacing=10)
-        self.grid.attach(Gtk.Label(label="Domain Name:"), 0, 0, 1, 1)
-        self.grid.attach(self.domain_entry, 1, 0, 1, 1)
-        self.grid.attach(Gtk.Label(label="Admin Email:"), 0, 1, 1, 1)
-        self.grid.attach(self.admin_email_entry, 1, 1, 1, 1)
-        self.grid.attach(Gtk.Label(label="PHP Version:"), 0, 2, 1, 1)
-        self.grid.attach(self.php_version_entry, 1, 2, 1, 1)
-
-        self.get_content_area().add(self.grid)
-        self.show_all()
-
-    def get_domain(self):
-        return self.domain_entry.get_text()
-
-    def get_admin_email(self):
-        return self.admin_email_entry.get_text()
-
-    def get_php_version(self):
-        return self.php_version_entry.get_text()
-
-
-class UpdateDomainDialog(Gtk.Dialog):
-    def __init__(self, parent):
-        Gtk.Dialog.__init__(self, "Update Domain", parent, 0,
-                            buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK))
-
-        self.set_default_size(300, 200)
-        self.set_modal(True)
-
-        self.domain_entry = Gtk.Entry()
-        self.new_domain_entry = Gtk.Entry()
-        self.new_root_path_entry = Gtk.Entry()
-        self.new_admin_email_entry = Gtk.Entry()
-        self.new_php_version_entry = Gtk.Entry()
-
-        self.domain_entry.set_placeholder_text("Domain Name")
-        self.new_domain_entry.set_placeholder_text("New Domain Name")
-        self.new_root_path_entry.set_placeholder_text("New Root Path")
-        self.new_admin_email_entry.set_placeholder_text("New Admin Email")
-        self.new_php_version_entry.set_placeholder_text("New PHP Version")
-
-        self.domain_entry.set_hexpand(True)
-        self.new_domain_entry.set_hexpand(True)
-        self.new_root_path_entry.set_hexpand(True)
-        self.new_admin_email_entry.set_hexpand(True)
-        self.new_php_version_entry.set_hexpand(True)
-
-        self.grid = Gtk.Grid(column_homogeneous=True, row_homogeneous=True, column_spacing=10, row_spacing=10)
-        self.grid.attach(Gtk.Label(label="Domain Name:"), 0, 0, 1, 1)
-        self.grid.attach(self.domain_entry, 1, 0, 1, 1)
-        self.grid.attach(Gtk.Label(label="New Domain Name:"), 0, 1, 1, 1)
-        self.grid.attach(self.new_domain_entry, 1, 1, 1, 1)
-        self.grid.attach(Gtk.Label(label="New Root Path:"), 0, 2, 1, 1)
-        self.grid.attach(self.new_root_path_entry, 1, 2, 1, 1)
-        self.grid.attach(Gtk.Label(label="New Admin Email:"), 0, 3, 1, 1)
-        self.grid.attach(self.new_admin_email_entry, 1, 3, 1, 1)
-        self.grid.attach(Gtk.Label(label="New PHP Version:"), 0, 4, 1, 1)
-        self.grid.attach(self.new_php_version_entry, 1, 4, 1, 1)
-
-        self.get_content_area().add(self.grid)
-        self.show_all()
-
-    def get_domain(self):
-        return self.domain_entry.get_text()
-
-    def get_new_domain(self):
-        return self.new_domain_entry.get_text()
-
-    def get_new_root_path(self):
-        return self.new_root_path_entry.get_text()
-
-    def get_new_admin_email(self):
-        return self.new_admin_email_entry.get_text()
-
-    def get_new_php_version(self):
-        return self.new_php_version_entry.get_text()
-
-
-class DeleteDomainDialog(Gtk.Dialog):
-    def __init__(self, parent):
-        Gtk.Dialog.__init__(self, "Delete Domain", parent, 0,
-                            buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_DELETE, Gtk.ResponseType.OK))
-
-        self.set_default_size(300, 100)
-        self.set_modal(True)
-
-        self.domain_entry = Gtk.Entry()
-        self.domain_entry.set_placeholder_text("Domain Name")
-        self.domain_entry.set_hexpand(True)
-
-        self.grid = Gtk.Grid(column_homogeneous=True, row_homogeneous=True, column_spacing=10, row_spacing=10)
-        self.grid.attach(Gtk.Label(label="Domain Name:"), 0, 0, 1, 1)
-        self.grid.attach(self.domain_entry, 1, 0, 1, 1)
-
-        self.get_content_area().add(self.grid)
-        self.show_all()
-
-    def get_domain(self):
-        return self.domain_entry.get_text()
-
-
-class ShowInstalledDomainsDialog(Gtk.Dialog):
-    def __init__(self, parent):
-        Gtk.Dialog.__init__(self, "Installed Domains", parent, 0, buttons=(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE))
-
-        self.set_default_size(600, 400)
-        self.set_modal(True)
-
-        # Create the domain list store
-        self.list_store = Gtk.ListStore(str, str, str, str, str, str)
-
-        # Create the domain tree view
-        self.tree_view = Gtk.TreeView(model=self.list_store)
-
-        # Create the domain columns
-        self.domain_column = Gtk.TreeViewColumn("Domain Name", Gtk.CellRendererText(), text=0)
-        self.root_path_column = Gtk.TreeViewColumn("Root Path", Gtk.CellRendererText(), text=1)
-        self.admin_email_column = Gtk.TreeViewColumn("Admin Email", Gtk.CellRendererText(), text=2)
-        self.php_version_column = Gtk.TreeViewColumn("PHP Version", Gtk.CellRendererText(), text=3)
-        self.installed_date_column = Gtk.TreeViewColumn("Installed Date", Gtk.CellRendererText(), text=4)
-
-        # Append the columns to the tree view
-        self.tree_view.append_column(self.domain_column)
-        self.tree_view.append_column(self.root_path_column)
-        self.tree_view.append_column(self.admin_email_column)
-        self.tree_view.append_column(self.php_version_column)
-        self.tree_view.append_column(self.installed_date_column)
-
-        # Create the scrollable window and add the tree view to it
-        self.scrollable_window = Gtk.ScrolledWindow()
-        self.scrollable_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        self.scrollable_window.set_child(self.tree_view)
-
-        # Add the scrollable window to the dialog
-        self.get_content_area().set_child(self.scrollable_window)
-
-        self.populate_installed_domains()
-
-        self.show_all()
-
-    def create_row(self, list_store, domain, root_path, admin_email, php_version, installed_date):
-        # Create a new row and add it to the list store
-        list_store.append([domain, root_path, admin_email, php_version, installed_date])
-
-    def populate_installed_domains(self):
-        # Add your code for retrieving the installed domains and their details here
-        # You can use the create_row function to create a new row and add it to the list store
-        self.create_row(self.list_store, "example.com", "/var/www/example.com", "admin@example.com", "7.4", "2021-12-31")
-
-
-def create_domain(domain, admin_email, php_version):
-    # Add your code for creating a domain here
-    pass
-
-
-def update_domain(domain, new_domain, new_root_path, new_admin_email, new_php_version):
-    # Add your code for updating a domain here
-    pass
-
-
-def delete_domain(domain):
-    # Add your code for deleting a domain here
-    pass
-
-
-def show_installed_domains():
-    # Add your code for showing installed domains here
-    pass
-
-
-class DomainManagementApplication(Gtk.Application):
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
+import os
+import re
+import shutil
+import subprocess
+import datetime
+import pytz
+from tabulate import tabulate
+
+
+def show_popup(title, content):
+    popup = Popup(title=title, content=content, size_hint=(None, None), size=(400, 200))
+    popup.open()
+
+
+class DomainManagementApp(App):
     def __init__(self):
-        Gtk.Application.__init__(self, application_id="com.example.domainmanagement")
+        super().__init__()
 
-    def do_activate(self):
-        win = MainWindow(self)
-        win.present()
+        self.php_version_input = None
+        self.admin_email_input = None
+        self.show_button = None
+        self.delete_button = None
+        self.update_button = None
+        self.create_button = None
+        self.install_button = None
+        self.label = None
+        self.spacing = None
+        self.padding = None
+        self.orientation = None
+        self.title = None
+        self.domain_input = None
+
+    def build(self):
+        self.title = 'Domain Management App'
+        self.orientation = 'vertical'
+        self.padding = 10
+        self.spacing = 10
+
+        self.label = Label(text='Choose an action:', font_size=20)
+        self.add_widget(self.label)
+
+        self.install_button = Button(text='Install Apps', on_press=self.install_apps)
+        self.create_button = Button(text='Create', on_press=self.create_domain)
+        self.update_button = Button(text='Update', on_press=self.update_domain)
+        self.delete_button = Button(text='Delete', on_press=self.delete_domain)
+        self.show_button = Button(text='Show Installed Domains', on_press=self.show_installed_domains)
+
+        layout = BoxLayout(size_hint=(1, None), height=50)
+
+        layout.add_widget(self.install_button)
+        layout.add_widget(self.create_button)
+        layout.add_widget(self.update_button)
+        layout.add_widget(self.delete_button)
+        layout.add_widget(self.show_button)
+
+        return self
+
+    def install_apps(self, instance):
+        layout = BoxLayout(orientation='vertical', spacing=10)
+
+        domain_label = Label(text='Enter the domain name to install application:')
+        self.domain_input = TextInput(multiline=False)
+        install_button = Button(text='Install', on_press=self.install)
+
+        layout.add_widget(domain_label)
+        layout.add_widget(self.domain_input)
+        layout.add_widget(install_button)
+
+        show_popup('Install Apps', layout)
+
+    def install(self, instance):
+        domain = self.domain_input.text
+        # Implement the install apps functionality for the given domain
+        # You can use the existing install_wordpress, install_laravel, install_django functions here
+        # Example:
+        # install_wordpress(domain)
+        # install_laravel(domain)
+        # install_django(domain)
+
+        show_popup('Install Apps', Label(text=f'Apps installed for domain: {domain}'))
+
+    def create_domain(self, instance):
+        layout = BoxLayout(orientation='vertical', spacing=10)
+
+        domain_label = Label(text='Enter the domain name:')
+        self.domain_input = TextInput(multiline=False)
+        admin_email_label = Label(text='Enter the admin email:')
+        self.admin_email_input = TextInput(multiline=False)
+        php_version_label = Label(text='Enter the PHP version (e.g., 7.4):')
+        self.php_version_input = TextInput(multiline=False)
+        create_button = Button(text='Create', on_press=self.create)
+
+        layout.add_widget(domain_label)
+        layout.add_widget(self.domain_input)
+        layout.add_widget(admin_email_label)
+        layout.add_widget(self.admin_email_input)
+        layout.add_widget(php_version_label)
+        layout.add_widget(self.php_version_input)
+        layout.add_widget(create_button)
+
+        show_popup('Create Domain', layout)
+
+    def create(self, instance):
+        domain = self.domain_input.text
+        admin_email = self.admin_email_input.text
+        php_version = self.php_version_input.text
+        # Implement the create domain functionality for the given domain, admin_email, and php_version
+        # You can use the existing create_directory and create_vhost functions here
+        # Example:
+        # create_directory(domain)
+        # create_vhost(domain, admin_email, php_version)
+
+        show_popup('Create Domain', Label(text=f'Domain created: {domain}'))
+
+    def update_domain(self, instance):
+        layout = BoxLayout(orientation='vertical', spacing=10)
+
+        domain_label = Label(text='Enter the domain name to update:')
+        self.domain_input = TextInput(multiline=False)
+        update_button = Button(text='Update', on_press=self.update)
+
+        layout.add_widget(domain_label)
+        layout.add_widget(self.domain_input)
+        layout.add_widget(update_button)
+
+        show_popup('Update Domain', layout)
+
+    def update(self, instance):
+        domain = self.domain_input.text
+        # Implement the update domain functionality for the given domain
+        # You can use the existing update_domain function here
+        # Example:
+        # update_domain(domain)
+
+        show_popup('Update Domain', Label(text=f'Domain updated: {domain}'))
+
+    def delete_domain(self, instance):
+        layout = BoxLayout(orientation='vertical', spacing=10)
+
+        domain_label = Label(text='Enter the domain name to delete:')
+        self.domain_input = TextInput(multiline=False)
+        delete_button = Button(text='Delete', on_press=self.delete)
+
+        layout.add_widget(domain_label)
+        layout.add_widget(self.domain_input)
+        layout.add_widget(delete_button)
+
+        show_popup('Delete Domain', layout)
+
+    def delete(self, instance):
+        domain = self.domain_input.text
+        # Implement the delete domain functionality for the given domain
+        # You can use the existing delete_domain function here
+        # Example:
+        # delete_domain(domain)
+
+        show_popup('Delete Domain', Label(text=f'Domain deleted: {domain}'))
+
+    def show_installed_domains(self, instance):
+        # Implement the show installed domains functionality
+        # You can use the existing show_installed_domains function here
+        # Example:
+        # show_installed_domains()
+
+        # For now, let's just show a dummy message
+        show_popup('Installed Domains', Label(text='Dummy message: Show installed domains'))
 
 
-app = DomainManagementApplication()
-app.run(None)
+if __name__ == '__main__':
+    DomainManagementApp().run()
