@@ -1,10 +1,13 @@
-number = int(input("Enter a number: "))
+def sum_of_numbers(numbers_list):
+    total_sum = 0
 
-product = 1
+    for num in numbers_list:
+        total_sum += num
 
-while number > 0:
-    digit = number % 10
-    product = product * digit
-    number = number // 10
+    return total_sum
 
-print(product)
+
+if __name__ == '__main__':
+    numbers = [10, 20, 30, 40, 50]
+    result = sum_of_numbers(numbers)
+    print(f"The sum of the numbers in the list is: {result}")
