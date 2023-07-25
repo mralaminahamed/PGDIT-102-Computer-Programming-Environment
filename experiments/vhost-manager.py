@@ -373,33 +373,38 @@ def install_applications(domain):
         print("Invalid installation option. Skipping installation.")
 
 
-def main():
+if __name__ == '__main__':
+    # Ensure Python 3 is used to run the script
+    if not os.uname().sysname == 'Linux' and not os.uname().sysname == 'Darwin':
+        print("This script is designed to run on Linux and macOS platforms.")
+        exit(1)
+
     # Get the action from the user
     action = input(
-        "Choose an action: (1) Install Apps, (2) Create, (3) Update, (4) Delete, (5) Show Installed Domains: ")
+        "Choose an action: (1) Install Apps, (2) Create, (3) Update, (4) Delete, (5) Show Installed Domains: "
+    )
 
     if action == "1":
-        domain = input("Enter the domain name to install application: ")
-        install_applications(domain)
+        install_applications(input("Enter the domain name to install application: "))
+
     elif action == "2":
-        domain = input("Enter the domain name: ")
-        admin_email = input("Enter the admin email: ")
-        php_version = input("Enter the PHP version (e.g., 7.4): ")
-        create_directory(domain)
-        create_vhost(domain, admin_email, php_version)
-        update_hosts_file(domain)
-        install_applications(domain)
+        domain_name = input("Enter the domain name: ")
+        domain_admin_email = input("Enter the admin email: ")
+        domain_php_version = input("Enter the PHP version (e.g., 7.4): ")
+
+        create_directory(domain_name)
+        create_vhost(domain_name, domain_admin_email, domain_php_version)
+        update_hosts_file(domain_name)
+        install_applications(domain_name)
+
     elif action == "3":
-        domain = input("Enter the domain name to update: ")
-        update_domain(domain)
+        update_domain(input("Enter the domain name to update: "))
+
     elif action == "4":
-        domain = input("Enter the domain name to delete: ")
-        delete_domain(domain)
+        delete_domain(input("Enter the domain name to delete: "))
+
     elif action == "5":
         show_installed_domains()
+
     else:
         print("Invalid action. Please choose a valid action.")
-
-
-if __name__ == '__main__':
-    main()
