@@ -54,8 +54,8 @@ if __name__ == '__main__':
             print(f"Error: Invalid lab mark ({lab_mark}). Marks will be not greater than 10.")
 
         if final_mark > 50:
-            print(f"Error: Invalid lab mark ({final_mark}). Marks will be not greater than 50.")
-    
+            print(f"Error: Invalid final mark ({final_mark}). Marks will be not greater than 50.")
+
         if contains_comma(quiz_marks):
             # Split the quiz mark using the comma separator
             values_list = quiz_marks.split(',')
