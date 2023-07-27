@@ -38,51 +38,59 @@ def contains_comma(input_string):
 
 
 if __name__ == '__main__':
-    try:
-        # Collect input from the professor
-        attendance_mark = int(input("Enter the attendance mark (out of 10): "))
-        quiz_marks = input("Enter the quiz mark (out of 15) with comma: ")
-        lab_mark = int(input("Enter the lab mark (out of 10): "))
-        final_mark = int(input("Enter the final mark (out of 50): "))
+    # try:
+    # Collect input from the professor
+    attendance_mark = int(input("Enter the attendance mark (out of 10): "))
+    quiz_marks = input("Enter the quiz mark (out of 15) with comma: ")
+    lab_mark = int(input("Enter the lab mark (out of 10): "))
+    final_mark = int(input("Enter the final mark (out of 50): "))
 
-        print("-----------------------------------------------")
+    print("-----------------------------------------------")
 
-        if attendance_mark > 10:
-            print(f"Invalid attendance mark({attendance_mark}). Marks will be not greater than 10.")
+    if attendance_mark > 10:
+        print(f"Error: Invalid attendance mark ({attendance_mark}). Marks will be not greater than 10.")
 
-        if lab_mark > 10:
-            print(f"Invalid lab mark({lab_mark}). Marks will be not greater than 10.")
+    if lab_mark > 10:
+        print(f"Error: Invalid lab mark ({lab_mark}). Marks will be not greater than 10.")
 
-        if final_mark > 50:
-            print(f"Invalid lab mark({final_mark}). Marks will be not greater than 50.")
+    if final_mark > 50:
+        print(f"Error: Invalid lab mark ({final_mark}). Marks will be not greater than 50.")
 
-        if contains_comma(quiz_marks):
-            # Split the quiz mark using the comma separator
-            values_list = quiz_marks.split(',')
+    if contains_comma(quiz_marks):
+        # Split the quiz mark using the comma separator
+        values_list = quiz_marks.split(',')
+        quiz_marks_valid = 1
 
+        for quz_mark in values_list:
+            clean_string = quz_mark.replace(" ", "")
+
+            # Verify current quiz mark is number
+            if not clean_string.isdigit():
+                quiz_marks_valid = 0
+                print(f"Error: Invalid quiz mark ({clean_string}). Marks will be integer number.")
+
+            # Verify current quiz mark is number and less than 15
+            if clean_string.isdigit() and int(clean_string) > 15:
+                quiz_marks_valid = 0
+                print(f"Error: Invalid quiz mark ({clean_string}). Marks will be not greater than 15.")
+
+        if quiz_marks_valid == 1:
             # Convert elements to integers using list comprehension
             int_values_list = [int(value) for value in values_list]
-            quiz_marks_valid = 1
 
-            for quz_mark in int_values_list:
-                if quz_mark > 15:
-                    quiz_marks_valid = 0
-                    print(f"Invalid quiz mark({quz_mark}). Marks will be not greater than 15.")
+            # Total Marks
+            total_in_course_mark = in_course_calculate(attendance_mark, *int_values_list, lab_mark)
+            total_final_marks = final_calculate(total_in_course_mark, final_mark)
 
-            if quiz_marks_valid == 1:
-                # Total Marks
-                in_course_mark = in_course_calculate(attendance_mark, *int_values_list, lab_mark)
-                final_marks = final_calculate(in_course_mark, final_mark)
+            # Calculate GPA
+            gpa_result = gpa_calculate(total_final_marks)
 
-                # Calculate GPA
-                gpa_result = gpa_calculate(final_marks)
+            # Show result
+            print(f"Total mark for this student is {int(total_final_marks)}")
+            print(f"GPA for this student is {gpa_result:.2f}")
 
-                # Show result
-                print(f"Total mark for this student is {int(final_marks)}")
-                print(f"GPA for this student is {gpa_result:.2f}")
-
-        else:
-            print("Invalid quiz mark. QUiz mark will be contains command (,).")
-
-    except:
-        print("An exception occurred")
+    else:
+        print(f"Error: Invalid quiz mark ({quiz_marks}). Quiz mark will be number and contains command (,).")
+#
+# except Exception as error:
+#     print("An error occurred:", error)  # An error occurred: name 'x' is not defined
