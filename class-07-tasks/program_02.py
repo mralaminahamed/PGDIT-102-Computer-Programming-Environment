@@ -7,8 +7,8 @@ if __name__ == '__main__':
     num = float(input("Enter a number: "))
 
     # Get the range bounds from the user
-    lower_number = float(input("Enter the lower bound of the range: "))
-    upper_number = float(input("Enter the upper bound of the range: "))
+    lower_number = float(input("Enter the lower number of the range: "))
+    upper_number = float(input("Enter the upper number of the range: "))
 
     # Check if each collected number falls within the specified range
     if is_number_in_range(num, lower_number, upper_number):

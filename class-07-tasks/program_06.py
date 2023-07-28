@@ -8,9 +8,10 @@ def average_of_numbers(num1, num2, num3):
 
 
 if __name__ == '__main__':
-    number1 = 10
-    number2 = 20
-    number3 = 30
+    # Collect numbers from user
+    number1 = int(input("Enter First Number:"))
+    number2 = int(input("Enter Second Number:"))
+    number3 = int(input("Enter Third Number:"))
 
     sum_result = sum_of_numbers(number1, number2, number3)
     average_result = average_of_numbers(number1, number2, number3)

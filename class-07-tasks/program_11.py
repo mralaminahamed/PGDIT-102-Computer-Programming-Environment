@@ -4,8 +4,10 @@ def power_recursive(a, b):
     else:
         return a * power_recursive(a, b - 1)
 
+
 if __name__ == '__main__':
-    base = 2
-    exponent = 3
+    # Collect numbers from user
+    base = int(input("Enter First Number:"))
+    exponent = int(input("Enter Second Number:"))
     result = power_recursive(base, exponent)
     print(f"{base} raised to the power of {exponent} is: {result}")

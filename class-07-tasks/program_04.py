@@ -5,6 +5,7 @@ def print_even_numbers(numbers_list):
         if num % 2 == 0:
             print(num)
 
+
 def print_odd_numbers(numbers_list):
     print("Even numbers in the list:")
 

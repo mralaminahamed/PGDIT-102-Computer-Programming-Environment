@@ -6,6 +6,7 @@ def sum_numbers_recursive(n):
 
 
 if __name__ == '__main__':
-    num = 5
+    # Collect numbers from user
+    num = int(input("Enter Number:"))
     result = sum_numbers_recursive(num)
     print(f"The sum of numbers from 1 to {num} is: {result}")

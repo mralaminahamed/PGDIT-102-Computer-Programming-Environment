@@ -23,15 +23,15 @@ if __name__ == '__main__':
     if selection == 1:
         radius = float(input("Enter radius:"))
         result = area_of_circle(radius)
-        print("area of the circle is: ", result)
+        print("Area of the circle is: ", result)
     elif selection == 2:
         length = float(input("Enter length:"))
         width = float(input("Enter width:"))
         result = area_of_rectangle(length, width)
-        print("area of the rectangle is: ", result)
+        print("Area of the rectangle is: ", result)
     elif selection == 3:
         side = float(input("Enter side:"))
         result = area_of_square(side)
-        print("area of the square is: ", side)
+        print("Area of the square is: ", side)
     else:
         print("Invalid selection. ")

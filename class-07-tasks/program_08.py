@@ -6,6 +6,7 @@ def factorial_recursive(n):
 
 
 if __name__ == '__main__':
-    num = 5
+    # Collect numbers from user
+    num = int(input("Enter Number:"))
     result = factorial_recursive(num)
     print(f"The factorial of {num} is: {result}")

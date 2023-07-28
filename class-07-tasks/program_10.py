@@ -6,7 +6,8 @@ def gcd_recursive(a, b):
 
 
 if __name__ == '__main__':
-    num1 = 48
-    num2 = 18
-    result = gcd_recursive(num1, num2)
-    print(f"The GCD of {num1} and {num2} is: {result}")
+    # Collect numbers from user
+    number1 = int(input("Enter First Number:"))
+    number2 = int(input("Enter Second Number:"))
+    result = gcd_recursive(number1, number2)
+    print(f"The GCD of {number1} and {number2} is: {result}")
