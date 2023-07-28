@@ -1,6 +1,6 @@
 def factorial_recursive(n):
-    if n == 0:
-        return 1
+    if n == 1:
+        return n
     else:
         return n * factorial_recursive(n - 1)
 
@@ -8,5 +8,9 @@ def factorial_recursive(n):
 if __name__ == '__main__':
     # Collect numbers from user
     num = int(input("Enter Number:"))
-    result = factorial_recursive(num)
-    print(f"The factorial of {num} is: {result}")
+
+    if num < 0:
+        print("Sorry, this number is less than zero. Please enter greater than 0.")
+    else:
+        result = factorial_recursive(num)
+        print(f"The factorial of {num} is: {result}")
