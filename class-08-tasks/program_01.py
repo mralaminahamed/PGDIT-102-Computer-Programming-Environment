@@ -1,7 +1,12 @@
 # Write a Python program to calculate the length of a string.
 
 def calculate_string_length(input_string):
-    return len(input_string)
+    length = 0
+    if '' != input_string:
+        for char in input_string:
+            length += 1
+
+    return length
 
 
 # Get input from the user
