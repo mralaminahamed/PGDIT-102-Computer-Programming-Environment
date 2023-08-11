@@ -1,3 +1,6 @@
+# Write two Python function as reverse() & palindromeCheck() to decide whether
+# a passed number is a palindrome or not.
+
 def reverse(number):
     num = 0
 

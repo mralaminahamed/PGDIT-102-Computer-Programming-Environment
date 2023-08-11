@@ -1,3 +1,5 @@
+# Write a program in Python to find the GCD of two numbers using recursion.
+
 def gcd_recursive(a, b):
     if b == 0:
         return a

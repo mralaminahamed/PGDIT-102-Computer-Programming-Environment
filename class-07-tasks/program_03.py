@@ -1,3 +1,5 @@
+# Write a Python function to sum all the numbers in a list.
+
 def sum_of_numbers(numbers_list):
     total_sum = 0
 

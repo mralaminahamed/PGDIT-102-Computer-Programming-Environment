@@ -1,3 +1,5 @@
+# Write a Python program to print the even numbers from a given list.
+
 def print_even_numbers(numbers_list):
     print("Even numbers in the list:")
 

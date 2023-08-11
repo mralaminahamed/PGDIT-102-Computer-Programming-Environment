@@ -1,5 +1,5 @@
+# Write a program to find area of surface based on a selection
 PI = 3.1416
-
 
 def area_of_circle(r):
     area = PI * r * r

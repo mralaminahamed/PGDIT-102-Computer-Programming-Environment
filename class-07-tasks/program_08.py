@@ -1,3 +1,6 @@
+# Write a Python function to calculate the factorial of a number using recursive
+# function.
+
 def factorial_recursive(n):
     if n == 1:
         return n

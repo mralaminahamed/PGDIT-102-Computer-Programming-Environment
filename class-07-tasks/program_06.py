@@ -1,3 +1,5 @@
+# Write two Python function as sum() & average() to find the average of three numbers.
+
 def sum_of_numbers(num1, num2, num3):
     return num1 + num2 + num3
 

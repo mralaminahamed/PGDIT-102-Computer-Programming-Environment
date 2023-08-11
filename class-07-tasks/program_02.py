@@ -1,3 +1,5 @@
+# Write a Python function to check whether a number falls within a given range.
+
 def is_number_in_range(number, lower_bound, upper_bound):
     return lower_bound <= number <= upper_bound
 

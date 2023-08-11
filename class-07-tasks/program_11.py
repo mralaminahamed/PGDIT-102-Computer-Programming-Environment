@@ -1,3 +1,6 @@
+# Write a Python program to calculate the value of 'a' to the power of 'b‘using
+# recursion.
+
 def power(a, b):
     if b == 0:
         return 1

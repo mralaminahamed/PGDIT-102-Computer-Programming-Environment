@@ -1,3 +1,5 @@
+# Write a Python function to find the max of three numbers.
+
 def find_max_of_three_numbers(num1, num2, num3):
     # Compare num1 and num2 to find the maximum of the first two numbers
     if num1 > num2:
