@@ -222,6 +222,6 @@ wrapt==1.14.1
 wsaccel==0.6.3
 xdg==5
 yarl==1.8.2
-yt-dlp==2023.1.6
+yt-dlp==2023.7.6
 zope.interface==5.5.2
 zxcvbn==4.4.28
