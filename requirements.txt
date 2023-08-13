@@ -37,7 +37,7 @@ configobj==5.0.8
 constantly==15.1.0
 construct==2.10.68
 contourpy==1.0.7
-cryptography==38.0.4
+cryptography==41.0.3
 cupshelpers==1.0
 cycler==0.11.0
 Cython==0.29.36
