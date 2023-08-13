@@ -60,7 +60,7 @@ fontPens==0.2.4
 fonttools==4.38.0
 frozenlist==1.4.0
 fs==2.4.16
-future==0.18.2
+future==0.18.3
 gast==0.5.2
 gattlib==0.20210616
 gbp==0.9.32
