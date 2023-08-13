@@ -54,7 +54,7 @@ ecdsa==0.18.0
 executing==1.2.0
 fastimport==0.9.14
 filelock==3.12.2
-Flask==2.2.2
+Flask==2.2.5
 flatbuffers==2.0.8+dfsg1
 fontPens==0.2.4
 fonttools==4.38.0
