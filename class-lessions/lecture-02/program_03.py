@@ -1,3 +1,5 @@
+# Question: Write a program that converts Centigrade to Fahrenheit.
+
 # Show message to the screen for getting centigrade temperature.
 centigrade = int(input('Enter the temperature in centigrade: '))
 

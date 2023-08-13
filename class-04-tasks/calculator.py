@@ -5,18 +5,16 @@ operator = input('Input the operator from (+, -, *, /, %):')
 result = ''
 if operator == '+':
     result = number1 + number2
-
-if operator == '-':
+elif operator == '-':
     result = number1 - number2
-
-if operator == '*':
+elif operator == '*':
     result = number1 * number2
-
-if operator == '/':
+elif operator == '/':
     result = number1 / number2
-
-if operator == '%':
+elif operator == '%':
     result = number1 % number2
+else:
+    print('Invalid chose ')
 
 if result != '':
     print('The result is: ', result)
