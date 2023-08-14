@@ -13,7 +13,7 @@ percentage = attendance / totalClasses * 100
 
 
 # Calculate the bonus for employee with service year
-if percentage  < 70:
+if percentage < 70:
     # Show the message to the screen.
     print('You are not allowed in the exam.')
 else:

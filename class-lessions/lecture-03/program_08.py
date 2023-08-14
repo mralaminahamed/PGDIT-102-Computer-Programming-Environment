@@ -1,5 +1,5 @@
 # A shop will give discount of 10% if the cost of purchased quantity is more than
-# 1000.
+# 1000. the cost from quantity with unit price 100.
 
 # Collect the quantity of purchase from user.
 quantity = int(input("Enter the quantity of purchase:"))

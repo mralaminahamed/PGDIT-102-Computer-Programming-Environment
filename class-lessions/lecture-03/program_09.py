@@ -1,4 +1,4 @@
-# A school has following rules for grading system:
+# A school has the following rules for grading system:
 # i) Below 50 – F; ii) 50 to 60 – D; iii) 60 to 70 – C; iv) 70 to 80 – B; v) Above 80 – A
 # • Ask user to enter marks and print the corresponding grade.
 

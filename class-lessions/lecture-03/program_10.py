@@ -10,9 +10,9 @@ serviceYear = int(input("Enter the service year:"))
 
 # Calculate the bonus for employee with service year
 if serviceYear >= 5:
-    bonusSalary = basicSalary * .1
+    bonusSalary = basicSalary * (10 / 100)
 elif serviceYear >= 3:
-    bonusSalary = basicSalary * .05
+    bonusSalary = basicSalary * (5 / 100)
 else:
     bonusSalary = 0
 

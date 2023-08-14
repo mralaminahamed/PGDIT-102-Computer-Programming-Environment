@@ -16,7 +16,7 @@ if xCoordinate > 0 and yCoordinate > 0:
 elif xCoordinate < 0 < yCoordinate:
     print('2nd coordinate.')
 elif xCoordinate < 0 and yCoordinate < 0:
-    print('1st coordinate.')
+    print('3st coordinate.')
 # elif xCoordinate > 0 and yCoordinate < 0:
 elif xCoordinate > 0 > yCoordinate:
     print('4th coordinate.')
