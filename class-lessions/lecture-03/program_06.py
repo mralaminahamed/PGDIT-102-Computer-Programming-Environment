@@ -1,5 +1,4 @@
-# Write a program to perform addition, subtraction, multiplication
-# and division of two numbers.
+# write a program using python to create a simple calculator
 
 # Collect all numbers and operator for operation from user.
 number1 = float(input('Input the first number:'))

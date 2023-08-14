@@ -1,3 +1,6 @@
+# Write a program to accept a coordinate point in a XY coordinate system and
+# determine in which quadrant the coordinate point lies.
+
 # x == 0 or y == 0 = on the axis not any coordinate
 # x > 0 or y > 0, 1st
 # x neg
