@@ -1,0 +1,4 @@
+PyGObject~=3.44.1
+requests~=2.31.0
+pytz~=2023.3
+tabulate~=0.8.9
