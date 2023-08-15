@@ -1,3 +1,5 @@
+# Write a program to display the multiplication table of a given integer.
+
 # Collect the target number for multiplication table.
 N = int(input('Enter number: '))
 i = 1

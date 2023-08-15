@@ -1,3 +1,6 @@
+# Write a program to determine whether a given number is prime or not.
+
+# Collect a number from user.
 number = int(input("Enter the number: "))
 
 if number <= 1:
