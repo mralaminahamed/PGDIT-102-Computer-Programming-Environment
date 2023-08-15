@@ -5,5 +5,6 @@ times = int(input("Enter the number of times: "))
 
 count = 0
 while count <= times:
+    print('Al Amin')
     print(count)
     count += 1

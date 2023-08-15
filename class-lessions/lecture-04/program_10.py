@@ -13,7 +13,7 @@ else:
         for digit in number:
             result += int(digit)
 
-        print('The result ist:', result)
+        print('The result is:', result)
 
 
 # n = int(input("Enter the number: "))
