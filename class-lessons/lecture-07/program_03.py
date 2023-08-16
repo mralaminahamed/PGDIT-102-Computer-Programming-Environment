@@ -12,9 +12,12 @@ def remove_nth_character(input_string, n):
 user_input = input("Enter a string: ")
 index_string = input("Enter the index of the character to remove: ")
 
-if index_string.isdigit():
+
+if user_input == '':
+    print(f"The string can not be empty.")
+elif not index_string.isdigit():
+    print("Invalid index. Index must be a number")
+else:
     # Remove the character at the specified index and display the modified string
     modified_string = remove_nth_character(user_input, int(index_string))
     print(f"The modified string is: {modified_string}")
-else:
-    print("Invalid index. Index must be a number")
