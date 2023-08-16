@@ -32,9 +32,9 @@ def palindrome_check(number):
 if __name__ == '__main__':
     # Collect numbers from user
     num1 = int(input("Enter First Number:"))
-    num2 = int(input("Enter Second Number:"))
+    # num2 = int(input("Enter Second Number:"))
     # num1 = 12321
     # num2 = 45678
 
     print(f"Is {num1} a palindrome? {palindrome_check(num1)}")
-    print(f"Is {num2} a palindrome? {palindrome_check(num2)}")
+    # print(f"Is {num2} a palindrome? {palindrome_check(num2)}")

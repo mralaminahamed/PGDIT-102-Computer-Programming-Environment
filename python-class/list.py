@@ -1,5 +1,5 @@
 lists = ['physics', 'chemistry', 1997, 2000]
-lists[0] = 'teswt'
+lists[0] = 'Biology'
 del lists[0]
 print(lists)
 
@@ -9,6 +9,8 @@ length = len(lists)
 print(length)
 
 print(value)
+print(lists)
+lists.clear()
 print(lists)
 
 voter = {'name': 'tewst', }
