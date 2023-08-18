@@ -12,28 +12,28 @@ mark_list = [49, 48, 41, 44, 38, 27, 20, 28, 35, 45]
 
 # Finding the largest number in the list
 largest_mark = mark_list[0]
-for mark in mark_list:
-    if mark >= largest_mark:
-        largest_mark = mark
+for i in mark_list:
+    if i > largest_mark:
+        largest_mark = i
 
 print("Example 01: The largest mark is:", largest_mark)
 print("Example 02: The largest mark is:", max(mark_list))
 
 # Finding the smallest number in the list
 smallest_mark = mark_list[0]
-for mark in mark_list:
-    if mark <= smallest_mark:
-        smallest_mark = mark
+for i in mark_list:
+    if i < smallest_mark:
+        smallest_mark = i
 
 print("Example 01: The smallest mark is:", smallest_mark)
 print("Example 02: The smallest mark is:", min(mark_list))
 
 # Finding the average number in the list
-average_mark = 0
-for mark in mark_list:
-    average_mark += mark
+total_mark = 0
+for i in mark_list:
+    total_mark += i
 
-print("Example 01: The average mark is:", (average_mark // 10))
+print("Example 01: The average mark is:", (total_mark // 10))
 print("Example 02: The average mark is:", (sum(mark_list) // 10))
 
 # Sort the marks in ascending order.
@@ -46,12 +46,14 @@ print("Example 01: The marks in descending order is:", mark_list)
 # print("Example 02: The marks in descending order is:", mark_list.reverse())
 
 # Remove the smallest mark from the list.
-mark_list.remove(min(mark_list))
+mark_list.remove(smallest_mark)
+# mark_list.remove(min(mark_list))
 print("Removed the smallest mark from the list is:", mark_list)
 
 # Insert the average mark at the mid-position of the list.
 print("Current average mark is:", (sum(mark_list) // 10))
-mark_list.insert(len(mark_list) // 2, (sum(mark_list) // 10))
+mark_list.insert(len(mark_list) // 2, (total_mark // 10))
+# mark_list.insert(len(mark_list) // 2, (sum(mark_list) // 10))
 print("Inserted the average mark at the mid-position of the list is:", mark_list)
 
 

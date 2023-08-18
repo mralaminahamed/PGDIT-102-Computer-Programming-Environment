@@ -17,7 +17,7 @@ elif operator == '/':
 elif operator == '%':
     result = number1 % number2
 else:
-    print('Invalid chose ')
+    print('Invalid choice ')
 
 if result != '':
     print('The result is: ', result)

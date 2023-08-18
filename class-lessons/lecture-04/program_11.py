@@ -12,18 +12,18 @@ term = int(input('Enter the number:'))
 # Assign required variables.
 first = 0
 second = 1
-count = 2
+i = 2
 
-print(first, second, count)
+# print(first, second, count)
 
-while count < term:
+while i < term:
     newNumber = first + second
 
     # show new number.
     print(newNumber)
 
     # Update the count numbers.
-    count += 1
+    i += 1
 
     # Update first and second numbers.
     first = second

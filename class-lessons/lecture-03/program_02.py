@@ -6,7 +6,7 @@ number = int(input("Enter a number: "))
 # Check whether the given number is event or odd.
 # even = জোড়
 # odd = বিজোড়
-if number % 2:  # the output will be 1 for every even number
+if number % 2:  # the output will be 1 for every odd number
     print("The number is odd")
 else:
     print("The number is even")

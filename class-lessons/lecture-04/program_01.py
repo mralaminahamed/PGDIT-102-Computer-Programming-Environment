@@ -3,8 +3,8 @@
 # Collect the number of times from user.
 times = int(input("Enter the number of times: "))
 
-count = 0
+count = 1
 while count <= times:
     print('Al Amin')
-    print(count)
+    # print(count)
     count += 1

@@ -3,11 +3,11 @@
 
 sums = 0
 i = 1
-while i <= 10:
+while i <= 10:  # read 10 numbers
     number = int(input('Enter number: '))
     sums += number
     i = i + 1
 
-print('Sum = ', sums)
 avg = sums / 10
+print('Sum = ', sums)
 print('Average = ', avg)

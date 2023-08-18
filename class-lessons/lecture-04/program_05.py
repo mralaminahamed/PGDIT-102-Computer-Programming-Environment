@@ -2,6 +2,7 @@
 
 # Collect the number from user.
 number = int(input("Enter the number: "))
+
 if number <= 0:
     print("Number must be a positive integer")
 else:
