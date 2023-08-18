@@ -3,7 +3,7 @@
 # Collect a number from user.
 number = int(input("Enter a number: "))
 
-count = 0
-while count <= number:
-    print(number - count)
-    count += 1
+i = 0
+while i <= number:
+    print(number - i)
+    i += 1

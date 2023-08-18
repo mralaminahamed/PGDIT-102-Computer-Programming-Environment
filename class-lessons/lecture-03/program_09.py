@@ -3,6 +3,7 @@
 # • Ask user to enter marks and print the corresponding grade.
 
 marks = int(input("Enter your marks: "))
+
 if marks > 80:
     print("You got A Grade.")
 elif 80 > marks > 70:

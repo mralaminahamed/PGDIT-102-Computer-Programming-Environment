@@ -3,17 +3,17 @@
 
 def factorial_recursive(n):
     if n == 1:
-        return n
+        return 1
     else:
+        # 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
         return n * factorial_recursive(n - 1)
 
 
-if __name__ == '__main__':
-    # Collect numbers from user
-    num = int(input("Enter Number:"))
+# Collect numbers from user
+num = int(input("Enter Number:"))
 
-    if num < 0:
-        print("Sorry, this number is less than zero. Please enter greater than 0.")
-    else:
-        result = factorial_recursive(num)
-        print(f"The factorial of {num} is: {result}")
+if num < 0:
+    print("Sorry, this number is less than zero. Please enter greater than 0.")
+else:
+    result = factorial_recursive(num)
+    print(f"The factorial of {num} is: {result}")

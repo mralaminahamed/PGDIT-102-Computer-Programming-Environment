@@ -3,7 +3,7 @@
 numbers_list = [10, 20, 30, 40, 50]
 total_sum = 0
 
-for num in numbers_list:
-    total_sum += num
+for i in numbers_list:
+    total_sum += i
 
 print(f"The sum of the numbers in the list is: {total_sum}")

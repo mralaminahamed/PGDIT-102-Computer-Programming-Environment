@@ -12,6 +12,6 @@ discountedCost = totalCost
 
 # Show the discount availability message to the screen.
 if totalCost > 1000:
-    discountedCost = totalCost * .9
+    discountedCost = totalCost * .1
 
 print('Please pay tk: ', discountedCost)

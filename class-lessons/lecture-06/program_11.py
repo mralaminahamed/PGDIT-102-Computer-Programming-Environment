@@ -9,14 +9,17 @@ def power(a, b):
     elif b == 1:
         return a
     else:
+        # 10 ^ 4
+        # 10 * 10 * 10 * 10
         return a * power(a, b - 1)
 
 
-if __name__ == '__main__':
-    # Collect numbers from user
-    base = int(input("Enter Base Number:"))
-    exponent = int(input("Enter Exponent Number:"))
+# Collect numbers from user
+base = int(input("Enter Base Number:"))
+exponent = int(input("Enter Exponent Number:"))
 
-    # Calculate the power of numbers
-    result = power(base, exponent)
-    print(f"{base} raised to the power of {exponent} is: {result}")
+# Calculate the power of numbers : example = 10^1
+result = power(base, exponent)
+# print(f"{base} raised to the power of {exponent} is: {result}")
+print(base, 'raised to the power of', exponent, 'is:', result)
+

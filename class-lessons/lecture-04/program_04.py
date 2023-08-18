@@ -5,6 +5,6 @@ times = int(input("Enter the number of times: "))
 
 count = 1
 while count <= times:
-    if count % 2 == 0:  # the output will be 1 for every even number
+    if count % 2 == 0:  # the output will be 1 for every odd number
         print(count)
     count += 1

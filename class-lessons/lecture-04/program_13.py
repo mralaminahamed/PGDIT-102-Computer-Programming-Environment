@@ -11,7 +11,7 @@ number = int(input("Enter the number: "))
 if number <= 1:
     print("This number is not a prime")
 elif number > 1:
-    # check the factors.
+    # check the prime.
     for i in range(2, number):
         if (number % i) == 0:
             print(number, "is not a prime")
